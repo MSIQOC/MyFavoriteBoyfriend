@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+         <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+        <!-- 구글폰트 -->
+        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+        <title>마이 페이보릿 보이프렌드</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+       <script type="text/javascript">
+            function addBoyfriend() {
+                // 1. 제목, 저자, 리뷰 내용을 가져옵니다.
+                let name = $('#add-name').val();
+                let personality = $('#add-personality').val();
+                let age = $('#add-age').val();
+                let hobby = $('#add-hobby').val();
+                let bloodType = $('#add-blood-type').val();
+                // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
+
+                if(name == ''){
+                    alert('남자친구의 이름을 입력해주세요!');
+                    location.href = "add";
+                    return;
+                }
+                else if(personality == ''){
+                    alert('남자친구의 성격을 입력해주세요!')
+                    location.href = "add";
+                    return;
+                }
+                else if(age == ''){
+                    alert('남자친구의 나이를 입력해주세요!')
+                    location.href = "add";
+                    return;
+                }
+                else if(hobby == ''){
+                    alert('남자친구의 취미를 입력해주세요!')
+                    location.href = "add";
+                    return;
+                }
+                else if(bloodType == ''){
+                    alert('남자친구의 혈액형을 입력해주세요!')
+                    location.href = "add";
+                    return;
+                }
+                // 3. POST /review 에 저장을 요청합니다.
+                $.ajax({
+                    type: "POST",
+                    url: "/adding",
+                    data: {
+                        name, personality, age, hobby, bloodType
+                    },
+                    success: function (response) { //여기에서 response는 app.py에서 넘겨받을 것들
+                        console.log(response)
+                        if (response["result"] == "success") {
+                            alert(response["msg"]);
+                            location.href = "/";
+                            //window.location.reload();
+                        }
+                        else {
+                            alert(response["msg"])
+                        }
+                    }
+                })
+
+            }
+        </script>
+        <style>
+            .center {
+                text-align: center;
+            }
+
+        </style>
+    </head>
+    <body>
+        <section class="hero is-warning">
+            <div class="hero-body">
+                <div class="container center">
+                    <h1 class="title">
+                        마이 페이보릿 보이프렌드😆
+                    </h1>
+                </div>
+            </div>
+        </section>
+        <div class="star-list" id="star-box">
+
+        </div>
+        <div class="center"><br>
+            이름: <input type="text"  id="add-name"><br><br>
+            성격: <input type="text"  id="add-personality"><br><br>
+            나이: <input type="text"  id="add-age"><br><br>
+            취미: <input type="text"  id="add-hobby"><br><br>
+            혈액형: <input type="text"  id="add-blood-type"><br><br>
+            <button onclick="addBoyfriend()" id="add-button" type="submit" class="btn btn-primary" > 추가하기 </button>
+        </div>
+    </body>
+</html>

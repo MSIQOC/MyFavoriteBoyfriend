@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+         <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                showBoyfriend();
+            });
+
+            function deleteStar(name) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/delete',
+                    data: {name: name}, //여기에서 삭제할 때 name을 넘겨주는 것이다.
+                    success: function (response) {
+                        if (response['result'] == 'success') { //response가 jsonify로 백엔드에서 넘겨받은 것
+                            alert(response['msg'])
+                            window.location.reload()
+                        }
+                    }
+                });
+            }
+
+
+            function showBoyfriend() {
+                $('#bf-box').empty()
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/list',
+                    data: {},
+                    success: function (response) {
+                        if (response['result'] == 'success') {
+                            let msg = response['msg'];
+                            let boyfriends = response['boyfriends_list']
+                            for( let i=0; i<boyfriends.length; ++i ){
+                                let boyfriend = boyfriends[i]
+                                let tempHtml = `<br>
+                            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            이름: ${boyfriend['name']} (호감도: ${boyfriend['like']})
+                            <p class="subtitle is-6">나이: ${boyfriend['age']}/ 성격: ${boyfriend['personality']}/ 혈액형: ${boyfriend['blood_type']}/ 취미: ${boyfriend['hobby']} </p>
+                        </div>
+                    </div>
+                </div>
+            <footer class="card-footer">
+                    <a href = "chats?name=${boyfriend['name']}" onclick="chatStar('${boyfriend['name']}')" class="card-footer-item has-text-info">
+                        대화하기
+                    </a>
+                    <a href="#" onclick="deleteStar('${boyfriend['name']}')" class="card-footer-item has-text-danger">
+                        삭제
+                        <span class="icon">
+              <i class="fas fa-ban"></i>
+            </span>
+                    </a>
+                </footer>
+
+            </div>`
+                                $('#bf-box').append(tempHtml)
+                            }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- 구글폰트 -->
+        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+        <title>마이 페이보릿 보이프렌드</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <style>
+            .center {
+                text-align: center;
+            }
+            .bf-list {
+                width: 500px;
+                margin: 20px auto 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="hero is-warning">
+            <div class="hero-body">
+                <div class="container center">
+                    <h1 class="title">
+                        마이 페이보릿 보이프렌드😆
+                    </h1>
+                    <h2 class="subtitle">
+                        당신의 선택은
+                    </h2>
+                </div>
+            </div>
+        </section>
+        <div class="bf-list" id="bf-box">
+        </div>
+        <br>
+        <div class="center">
+            <form action = "/add" method = "GET">
+                <button id="add-button" type="submit" class="btn btn-primary" > 추가하기 </button>
+            </form>
+        </div>
+    </body>
+</html>

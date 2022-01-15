@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+    <title>마이 페이보릿 보이프렌드</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    {#        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>#}
+    {#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
+    <script src="https://code.jquery.com/jquery-1.8.3.min.js"
+            integrity="sha256-YcbK69I5IXQftf/mYD8WY0/KmEDCv1asggHpJk1trM8=" crossorigin="anonymous"></script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <style>
+        .chat_wrap {
+            border: 1px solid #999;
+            width: 300px;
+            padding: 5px;
+            font-size: 13px;
+            color: #333
+        }
+
+        .chat_wrap .inner {
+            background-color: #acc2d2;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-y: scroll;
+            height: 400px;
+        }
+
+        .chat_wrap .item {
+            margin-top: 15px
+        }
+
+        .chat_wrap .item:first-child {
+            margin-top: 0px
+        }
+
+        .chat_wrap .item .box {
+            display: inline-block;
+            max-width: 180px;
+            position: relative
+        }
+
+        .chat_wrap .item .box::before {
+            content: "";
+            position: absolute;
+            left: -8px;
+            top: 9px;
+            border-top: 0px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #fff;
+        }
+
+        .chat_wrap .item .box .msg {
+            background: #fff;
+            border-radius: 10px;
+            padding: 8px;
+            text-align: left
+        }
+
+        .chat_wrap .item .box .time {
+            font-size: 11px;
+            color: #999;
+            position: absolute;
+            right: -75px;
+            bottom: 5px;
+            width: 70px
+        }
+
+        .chat_wrap .item.mymsg {
+            text-align: right
+        }
+
+        .chat_wrap .item.mymsg .box::before {
+            left: auto;
+            right: -8px;
+            border-left: 8px solid #fee600;
+            border-right: 0;
+        }
+
+        .chat_wrap .item.mymsg .box .msg {
+            background: #fee600
+        }
+
+        .chat_wrap .item.mymsg .box .time {
+            right: auto;
+            left: -75px
+        }
+
+        .chat_wrap .item .box {
+            transition: all .3s ease-out;
+            margin: 0 0 0 20px;
+            opacity: 0
+        }
+
+        .chat_wrap .item.mymsg .box {
+            transition: all .3s ease-out;
+            margin: 0 20px 0 0;
+        }
+
+        .chat_wrap .item.on .box {
+            margin: 0;
+            opacity: 1;
+        }
+
+        .hero.is-warning {
+            background-color: #ffdd57;
+            color: rgba(0, 0, 0, .7);
+        }
+
+        .hero {
+            align-items: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hero-body {
+            flex-grow: 1;
+            flex-shrink: 0;
+            padding: 3rem 1.5rem;
+        }
+
+        .title {
+            color: #363636;
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 1.125;
+        }
+
+        .subtitle {
+            color: #4a4a4a;
+            font-size: 1.25rem;
+            font-weight: 400;
+            line-height: 1.25;
+        }
+
+        .more-subtitle {
+            color: #4a4a4a;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.25;
+        }
+
+        .hero.is-warning .title {
+            color: rgba(0, 0, 0, .7);
+        }
+
+        .hero.is-warning .subtitle {
+            color: rgba(0, 0, 0, .9);
+        }
+
+        .container {
+            flex-grow: 1;
+            margin: 0 auto;
+            position: relative;
+            width: auto;
+        }
+
+        .center {
+            text-align: center
+        }
+
+        .align-center {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .to_right {
+            position: absolute;
+            right: 700px;
+            margin-right: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-post {
+            border: #000000;
+        }
+
+        .comment {
+            color: blue;
+            font-weight: bold;
+        }
+
+        #post-box {
+            width: 500px;
+            margin: 20px auto;
+            padding: 50px;
+            border: #000000 !important;
+            border-radius: 5px;
+            float: right;
+            left: 900px;
+        }
+
+        input[type="text"] {
+            border: 0;
+            width: 100%;
+            background: #ddd;
+            border-radius: 5px;
+            height: 30px;
+            padding-left: 5px;
+            box-sizing: border-box;
+            margin-top: 5px
+        }
+
+        input[type="text"]::placeholder {
+            color: #999
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            chatStar()
+        });
+        temp = location.href.split('=')
+        name = decodeURI(temp[1])
+        $(document).ready(function () {
+            $('.align-center').prepend(`${name}<br>`)
+            console.log('hello?')
+        })
+
+        function chatStar(starName) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/like',
+                data: {name: name},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+
+                    }
+                }
+            });
+        }
+
+        function postChat() {
+            let question = $('#post-question').val()
+            let answer = $('#post-answer').val()
+            if ($('#post-question').val().length === 0) {
+                alert('질문을 입력하세요')
+            } else if ($('#post-answer').val().length === 0) {
+                alert('답변을 입력하세요')
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/addchat",
+                    data: {
+                        question, answer, name
+                    },
+                    success: function (response) { // 성공하면
+
+                    }
+                })
+                $('#post-question').val('')
+                $('#post-answer').val('')
+            }
+        }
+
+        $(function () {
+            $("input[type='text']").keypress(function (e) {
+                if (e.keyCode == 13 && $(this).val().length) {
+                    var _val = $(this).val();
+                    var _class = $(this).attr("class");
+                    $(this).val('');
+                    var _tar = $(".chat_wrap .inner").append('<div class="item ' + _class + '"><div class="box"><p class="msg">' + _val + '</p><span class="time">' + currentTime() + '</span></div></div>');
+
+                    var lastItem = $(".chat_wrap .inner").find(".item:last");
+                    setTimeout(function () {
+                        lastItem.addClass("on");
+                    }, 10);
+
+                    var position = lastItem.position().top + $(".chat_wrap .inner").scrollTop();
+
+                    $(".chat_wrap .inner").stop().animate({scrollTop: position}, 500);
+                    //
+                    $.ajax({
+                        type: "POST",
+                        url: "/findchat",
+                        data: {
+                            _val, name
+                        },
+                        success: function (response) { //여기에서 response는 app.py에서 넘겨받을 것들
+
+                            if (response["result"] == "success") {
+                                let chat = response['chat']
+                                num = Math.floor(Math.random() * chat.length);
+                                $(".chat_wrap .inner").append('<div class="item"><div class="box"><p class="msg">' + chat[num]['answer'] + '</p><span class="time">' + currentTime() + '</span></div></div>');
+
+                            } else {
+                                $(".chat_wrap .inner").append('<div class="item"><div class="box"><p class="msg">' + '무슨 말인지 잘 모르겠어.' + '</p><span class="time">' + currentTime() + '</span></div></div>');
+                            }
+                            var lastItem = $(".chat_wrap .inner").find(".item:last");
+                            setTimeout(function () {
+                                lastItem.addClass("on");
+                            }, 300);
+
+                            var position = lastItem.position().top + $(".chat_wrap .inner").scrollTop();
+
+                            $(".chat_wrap .inner").stop().animate({scrollTop: position}, 500);
+                        }
+                    })
+                }
+            });
+
+        });
+
+        var currentTime = function () {
+            var date = new Date();
+            var hh = date.getHours();
+            var mm = date.getMinutes();
+            var apm = hh > 12 ? "오후" : "오전";
+            if (hh > 12)
+                hh -= 12
+            var ct = apm + " " + hh + ":" + mm + "";
+            if (mm < 10)
+                ct = apm + " " + hh + ":0" + mm + "";
+            return ct;
+        }
+
+    </script>
+
+</head>
+<body>
+<section class="hero is-warning">
+    <div class="hero-body">
+        <div class="container center">
+            <h1 class="title">
+                마이 페이보릿 보이프렌드😆
+            </h1>
+            <h2 class="subtitle">
+                당신의 선택은
+            </h2>
+            <a href="/" class="more-subtitle">
+                홈으로
+            </a>
+        </div>
+    </div>
+</section>
+<br>
+<div id="boyfriend-name"></div>
+<div class="to_right">
+    <div class="align-center"></div>
+    <div class="chat_wrap">
+        <div class="inner">
+
+            <!-- <div class="item">
+                <div class="box">
+                    <p class="msg">안녕하세요</p>
+                    <span class="time">오전 10:05</span>
+                </div>
+            </div>
+
+            <div class="item mymsg">
+                <div class="box">
+                    <p class="msg">안녕하세요</p>
+                    <span class="time">오전 10:05</span>
+                </div>
+            </div> -->
+
+        </div>
+
+        <input type="text" class="mymsg" placeholder="내용 입력">
+
+
+    </div>
+</div>
+<div id="post-box">
+    <div>
+        <div class="form-group">
+            남자친구가 모르는 말에 대한 답변을 알려주세요!
+            <br><br>
+            <label for="post-question">질문</label>
+            <input id="post-question" class="form-control" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="post-answer">답변</label>
+            <textarea id="post-answer" class="form-control" rows="2"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="postChat()">저장</button>
+
+    </div>
+</div>
+</body>
+</html>
