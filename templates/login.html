@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        .login {
+            width: 500px;
+            margin: 200px auto auto auto;
+        }
+        .loginn {
+            width: 500px;
+        }
+        .title {
+            margin: 0px 0px 0px 150px;
+        }
+
+        .id {
+            margin: 20px 0px 0px 160px;
+        }
+
+        .pw {
+            margin: 20px 0px 0px 160px;
+        }
+
+        .button {
+            margin: 20px 0px 0px 160px;
+        }
+    </style>
+</head>
+<script type="text/javascript">
+    function toSignUp() {
+        location.href = "/signup"
+    }
+
+    function toHome() {
+        location.href = "/"
+    }
+</script>
+<body>
+<form method="post">
+    <div class="login">
+        <h1 class="title">로그인 페이지</h1>
+        <hr>
+        <p class="id">ID: <input type="text" name="user_id"/></p>
+        <p class="pw">PW: <input type="password" name="password"/></p>
+        <p style="text-align: center">
+            <button type="submit" >로그인 하기</button>
+        </p>
+    </div>
+</form>
+<div>
+    <p style="text-align: center"><button onClick="toSignUp()">회원가입</button></p>
+</div>
+</p>
+<hr>
+
+
+</body>
+</html>
